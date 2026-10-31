@@ -7,7 +7,7 @@
   if (!doc || typeof doc.createElement !== 'function') return
   if (global.__DSH_WHALE_PULSE__ && global.__DSH_WHALE_PULSE__.started) return
 
-  var VERSION = '1.8.3'
+  var VERSION = '1.8.4'
   var STORAGE_KEY = 'dsh.whale-pulse.v1'
   var CONFIG_EVENT = 'dsh-whale-pulse-config'
   var LEVEL_URL = '/dsh-whale-pulse/level'
