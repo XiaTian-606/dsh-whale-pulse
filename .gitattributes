@@ -1,0 +1,10 @@
+# 统一换行符：源码用 LF，PowerShell 脚本保留 CRLF
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 二进制文件不做换行转换
+*.dll binary
+*.png binary
+*.webp binary
