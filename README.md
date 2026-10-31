@@ -9,7 +9,7 @@
 **简体中文** · [更新日志](CHANGELOG.md) · [反馈问题](../../issues)
 
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-0078D4?style=flat-square)](#-兼容环境)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-0078D4?style=flat-square)](#-兼容环境)
 [![DSH](https://img.shields.io/badge/DSH-0.2.x-4D6BFE?style=flat-square)](#-它是什么)
 [![Version](https://img.shields.io/badge/version-1.8.4-47e5bc?style=flat-square)](CHANGELOG.md)
 
@@ -39,15 +39,17 @@ DSH 的聊天区右侧有一列竖着的小刻度（**轮次轨道**），点一
 本插件把它变成一块「声波屏」：读取电脑当前的音频输出，算出 16 段频谱，
 再驱动每根刻度的长度、厚度、颜色和辉光。
 
-- 音频由**宿主侧 WASAPI loopback** 采集（OBS 同款做法），不是浏览器录音接口；
-- 默认抓整个输出设备，也可以**只抓某一个应用**（process loopback）；
+- Windows 上由**宿主侧 WASAPI loopback** 采集（OBS 同款做法），不是浏览器录音接口；
+- macOS 上由 **ScreenCaptureKit** 原生抓取系统音频，首次启动自动编译；
+- 默认抓整个输出设备，Windows 上也可以**只抓某一个应用**（process loopback）；
 - 只算音量和频谱，**不录音、不落盘、不上传**。
 
 ## ✨ 功能
 
 - [x] 每根刻度独立伸缩，像一道沿轨道流动的声波
 - [x] 两种形状：**海浪**（随时间流动）/ **山峰**（静止钟形，中间高两边低）
-- [x] 按应用抓取：只跟 QQ 音乐、Chrome、游戏等某个应用的声音律动
+- [x] 按应用抓取：只跟 QQ 音乐、Chrome、游戏等某个应用的声音律动（Windows）
+- [x] macOS 原生采集：ScreenCaptureKit，不需要 ffmpeg / BlackHole
 - [x] 彩虹流光 / 单色，任意取色
 - [x] 浮动幅度、低谷幅度、高峰幅度、流速、外圈泛光、最长长度全部可调
 - [x] 上冲快、回落慢；间奏/换气不掉，暂停才安静
@@ -68,10 +70,14 @@ DSH 的聊天区右侧有一列竖着的小刻度（**轮次轨道**），点一
 | 系统 | 状态 | 说明 |
 | --- | --- | --- |
 | Windows 10/11 | ✅ 完整支持 | WASAPI + PowerShell，系统自带 .NET Framework 4.x |
-| macOS | 🧪 实验性 | `ffmpeg` + `BlackHole` 虚拟声卡，尚未真机验证 |
+| macOS 13+ | ✅ 原生支持 | ScreenCaptureKit 直接抓系统音频，首次启动自动编译，**不需要** ffmpeg / BlackHole |
 | Linux | ❌ 暂不支持 | PulseAudio monitor source 需要额外配置 |
 
-> process loopback（按应用抓取）需要 Windows 10 2004（Build 19041）以上。
+> Windows 上按应用抓取需要 Windows 10 2004（Build 19041）以上。
+>
+> macOS 需要 Xcode 命令行工具（`xcode-select --install`）来编译原生采集器；如果编译不可用，会自动回退到 `ffmpeg` + `BlackHole` 方案（`brew install ffmpeg blackhole-2ch`）。
+>
+> macOS 首次运行时，系统会请求「屏幕录制」权限，允许后重启一次插件即可。
 
 ## 💻 安装
 
@@ -201,8 +207,8 @@ powershell -File runtime/sessions.ps1
 
 ## 🗺️ 路线图
 
-- [ ] 补效果截图与演示 GIF
-- [ ] macOS 真机验证（BlackHole 方案）
+- [x] 效果截图与宣传视频
+- [x] macOS 原生采集（ScreenCaptureKit）
 - [ ] 更细的频谱分段（16 → 32）
 - [ ] 跟随系统主题自动切换配色
 - [ ] Linux 支持（PulseAudio monitor）
