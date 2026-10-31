@@ -1,0 +1,68 @@
+/* 轮次轨道刻度的律动样式。长度/颜色/泛光由设置页写入的 CSS 变量驱动。 */
+
+html[data-wp-pulse="on"] .wp-mark::before {
+  height: calc(2px + var(--wp-v, 0) * 6px);
+  transform: translateY(-50%) scaleX(calc(var(--wp-scale-min, 0.08) + var(--wp-v, 0) * var(--wp-scale-range, 1.77)));
+  box-shadow:
+    0 0 calc(var(--wp-v, 0) * 16px * var(--wp-glow, 1))
+      calc(var(--wp-v, 0) * 2px * var(--wp-glow, 1))
+      hsl(calc(var(--wp-hue-base, 210) + var(--wp-i, 0) * 16) 95% 62% / calc(0.12 + var(--wp-v, 0) * 0.85));
+  will-change: height, transform, box-shadow;
+}
+
+/* 彩虹流光：每根刻度按序号铺色相，再整体 hue-rotate 流动 */
+html[data-wp-pulse="on"][data-wp-mode="rainbow"] .wp-mark::before {
+  background: hsl(calc(var(--wp-hue-base, 210) + var(--wp-i, 0) * 16) 95% 62%);
+  animation: wp-hue-flow calc(7s / var(--wp-speed, 1)) linear infinite;
+  animation-delay: calc(var(--wp-i, 0) * -0.35s);
+}
+
+/* 单色：所有刻度同一个颜色（直接来自设置页的取色器） */
+html[data-wp-pulse="on"][data-wp-mode="single"] .wp-mark::before {
+  background: var(--wp-color, hsl(210 95% 62%));
+}
+
+/* 当前轮次保留强调：长度不参与律动，但颜色照常 */
+html[data-wp-pulse="on"] .wp-mark[aria-current="true"]::before {
+  transform: translateY(-50%) scaleX(1);
+}
+
+@keyframes wp-hue-flow {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* 整条轨道的呼吸光：靠 frame 上的 --wp-bass 驱动。
+ * 宽度放宽到 160px，让最长刻度有地方伸出去、不被 28px 的容器截断；
+ * 加宽的那部分不吃鼠标，只有刻度本身可点。 */
+html[data-wp-pulse="on"] .wp-rail {
+  transition: none;
+  width: 160px;
+  pointer-events: none;
+  filter: drop-shadow(
+    0 0 calc(var(--wp-bass, 0) * 6px * var(--wp-glow, 1))
+      hsl(var(--wp-hue-base, 210) 95% 62% / calc(var(--wp-bass, 0) * 0.45))
+  );
+}
+
+html[data-wp-pulse="on"] .wp-mark {
+  pointer-events: auto;
+}
+
+/* 轨道内部那个滚动容器默认会裁掉横向溢出，律动一长就被切平了 */
+html[data-wp-pulse="on"] .wp-scroller {
+  overflow: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-wp-pulse="on"] .wp-mark::before {
+    height: 2px;
+    transform: translateY(-50%) scaleX(0.6);
+    box-shadow: none;
+    animation: none;
+  }
+}
