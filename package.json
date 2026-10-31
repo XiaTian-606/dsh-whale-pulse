@@ -1,0 +1,63 @@
+{
+  "name": "dsh-whale-pulse",
+  "version": "1.8.3",
+  "type": "module",
+  "description": "大肥鱼音律：让聊天区右侧的轮次轨道跟着电脑正在播放的声音一起律动（宿主侧 WASAPI loopback，不录制、不上传）。",
+  "keywords": [
+    "deepseek",
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "audio",
+    "visualizer",
+    "turn-rail",
+    "wasapi"
+  ],
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "runtime",
+    "cordis.patch.yml",
+    "README.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
+    "icon.png"
+  ],
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "react": "^18.3.1"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "os": [
+    "win32",
+    "darwin"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": []
+    }
+  },
+  "license": "MIT",
+  "author": "dsh-whale-pulse authors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XiaTian-606/dsh-whale-pulse.git"
+  },
+  "homepage": "https://github.com/XiaTian-606/dsh-whale-pulse#readme",
+  "bugs": {
+    "url": "https://github.com/XiaTian-606/dsh-whale-pulse/issues"
+  }
+}
