@@ -75,6 +75,22 @@ DSH 的聊天区右侧有一列竖着的小刻度（**轮次轨道**），点一
 
 ## 💻 安装
 
+### 方式一：从插件市场安装（推荐）
+
+编辑 `<DSH_HOME>\profiles\desktop\cordis.patch.yml`，把市场的索引指向本仓库：
+
+```yaml
+- id: plugin-market
+  name: "@deepseek-ai/dsh-plugin-market"
+  config:
+    indexes:
+      - https://raw.githubusercontent.com/XiaTian-606/dsh-whale-pulse/main/market-index.json
+```
+
+重启 DSH，打开 **设置 → 插件市场（Discover）**，搜索「鱼的耳机」点安装即可。
+
+### 方式二：手动安装（开发 / 自用）
+
 源码放 `<DSH_HOME>\plugins\dsh-whale-pulse\`（`<DSH_HOME>` 一般是 `C:\Users\<你>\.dsh`），
 然后在 `<DSH_HOME>\profiles\desktop\` 做三件事：
 
@@ -95,6 +111,15 @@ DSH 的聊天区右侧有一列竖着的小刻度（**轮次轨道**），点一
    ```
 
 4. **重启 DSH**（宿主注入表和客户端模块都在启动时收集一次，刷新页面不够）。
+
+### 方式三：从源码安装（git）
+
+```powershell
+cd "$env:USERPROFILE\.dsh\profiles\desktop"
+pnpm add github:XiaTian-606/dsh-whale-pulse
+```
+
+然后把 `"dsh-whale-pulse"` 加进 `dsh.profile.bundles`，重启 DSH。
 
 ## ⚙️ 设置
 
