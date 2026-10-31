@@ -1,0 +1,35 @@
+{
+  "url": "https://github.com/XiaTian-606/dsh-whale-pulse",
+  "title": "鱼的耳机",
+  "description": "让 DeepSeek Harness 的轮次轨道跟着电脑正在播放的声音律动，支持按应用抓取。",
+  "metadata": {
+    "categories": {
+      "visual": { "title": "视觉" }
+    },
+    "labels": {
+      "audio": { "title": "音频" },
+      "visualizer": { "title": "可视化" }
+    },
+    "sortKeys": {}
+  },
+  "entries": [
+    {
+      "versions": [
+        {
+          "version": "1.8.3",
+          "install": { "spec": "github:XiaTian-606/dsh-whale-pulse#66580103e2065457b5a68bffd32fc9809a60f552" },
+          "compatibility": { "compatible": true },
+          "publishTimestamp": 1793452960,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/XiaTian-606/dsh-whale-pulse",
+            "commit": "66580103e2065457b5a68bffd32fc9809a60f552"
+          },
+          "engines": { "dsh": ">=0.2.0" }
+        }
+      ],
+      "defaultVersion": "1.8.3",
+      "installation": { "status": "not-installed" }
+    }
+  ]
+}
