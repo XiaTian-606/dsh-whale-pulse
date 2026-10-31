@@ -77,17 +77,23 @@ DSH 的聊天区右侧有一列竖着的小刻度（**轮次轨道**），点一
 
 ### 方式一：从插件市场安装（推荐）
 
-编辑 `<DSH_HOME>\profiles\desktop\cordis.patch.yml`，把市场的索引指向本仓库：
+编辑 `<DSH_HOME>\profiles\desktop\cordis.patch.yml`，把市场的索引指向本仓库（国内用 jsDelivr 镜像，海外用 GitHub 原址，二选一）：
 
 ```yaml
 - id: plugin-market
   name: "@deepseek-ai/dsh-plugin-market"
   config:
     indexes:
-      - https://raw.githubusercontent.com/XiaTian-606/dsh-whale-pulse/main/market-index.json
+      # 国内：jsDelivr CDN
+      - https://cdn.jsdelivr.net/gh/XiaTian-606/dsh-whale-pulse@main/market-index.json
+      # 海外 / 备用：GitHub 原址
+      # - https://raw.githubusercontent.com/XiaTian-606/dsh-whale-pulse/main/market-index.json
 ```
 
 重启 DSH，打开 **设置 → 插件市场（Discover）**，搜索「鱼的耳机」点安装即可。
+
+> [!NOTE]
+> 安装时插件从 GitHub 拉取。网络不稳的话优先用下面的「方式三」或等 npm 包发布。
 
 ### 方式二：手动安装（开发 / 自用）
 
