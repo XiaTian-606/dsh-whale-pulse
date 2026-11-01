@@ -16,19 +16,18 @@
     {
       "versions": [
         {
-          "version": "1.8.3",
-          "install": { "spec": "github:XiaTian-606/dsh-whale-pulse#66580103e2065457b5a68bffd32fc9809a60f552" },
+          "version": "1.8.4",
+          "install": { "spec": "dsh-whale-pulse@1.8.4" },
           "compatibility": { "compatible": true },
-          "publishTimestamp": 1793452960,
+          "publishTimestamp": 1793540000,
           "source": {
-            "type": "git",
-            "url": "https://github.com/XiaTian-606/dsh-whale-pulse",
-            "commit": "66580103e2065457b5a68bffd32fc9809a60f552"
+            "type": "npm",
+            "registry": "https://registry.npmjs.org/"
           },
           "engines": { "dsh": ">=0.2.0" }
         }
       ],
-      "defaultVersion": "1.8.3",
+      "defaultVersion": "1.8.4",
       "installation": { "status": "not-installed" }
     }
   ]

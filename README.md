@@ -99,9 +99,25 @@ DSH 的聊天区右侧有一列竖着的小刻度（**轮次轨道**），点一
 重启 DSH，打开 **设置 → 插件市场（Discover）**，搜索「鱼的耳机」点安装即可。
 
 > [!NOTE]
-> 安装时插件从 GitHub 拉取。网络不稳的话优先用下面的「方式三」或等 npm 包发布。
+> 市场索引里的安装源已经切到 npm（`dsh-whale-pulse@1.8.4`），国内会走 npm 镜像，比从 GitHub 拉稳很多。
 
-### 方式二：手动安装（开发 / 自用）
+### 方式二：npm 安装（推荐，最快）
+
+```bash
+npm i dsh-whale-pulse
+# 或
+pnpm add dsh-whale-pulse
+```
+
+然后把 `"dsh-whale-pulse"` 加进 `dsh.profile.bundles`，重启 DSH。
+
+国内网络可以用镜像：
+
+```bash
+npm i dsh-whale-pulse --registry=https://registry.npmmirror.com
+```
+
+### 方式三：手动安装（开发 / 自用）
 
 源码放 `<DSH_HOME>\plugins\dsh-whale-pulse\`（`<DSH_HOME>` 一般是 `C:\Users\<你>\.dsh`），
 然后在 `<DSH_HOME>\profiles\desktop\` 做三件事：
@@ -124,7 +140,7 @@ DSH 的聊天区右侧有一列竖着的小刻度（**轮次轨道**），点一
 
 4. **重启 DSH**（宿主注入表和客户端模块都在启动时收集一次，刷新页面不够）。
 
-### 方式三：从源码安装（git）
+### 方式四：从源码安装（git）
 
 ```powershell
 cd "$env:USERPROFILE\.dsh\profiles\desktop"
