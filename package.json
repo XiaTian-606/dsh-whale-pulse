@@ -1,6 +1,6 @@
 {
   "name": "dsh-whale-pulse",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "type": "module",
   "description": "大肥鱼音律：让聊天区右侧的轮次轨道跟着电脑正在播放的声音一起律动（宿主侧 WASAPI loopback，不录制、不上传）。",
   "keywords": [

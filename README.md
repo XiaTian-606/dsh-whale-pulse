@@ -11,7 +11,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-0078D4?style=flat-square)](#-兼容环境)
 [![DSH](https://img.shields.io/badge/DSH-0.2.x-4D6BFE?style=flat-square)](#-它是什么)
-[![Version](https://img.shields.io/badge/version-1.8.5-47e5bc?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.8.6-47e5bc?style=flat-square)](CHANGELOG.md)
 
 </div>
 

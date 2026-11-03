@@ -16,8 +16,8 @@
     {
       "versions": [
         {
-          "version": "1.8.4",
-          "install": { "spec": "dsh-whale-pulse@1.8.4" },
+          "version": "1.8.6",
+          "install": { "spec": "dsh-whale-pulse@1.8.6" },
           "compatibility": { "compatible": true },
           "publishTimestamp": 1793540000,
           "source": {
@@ -27,7 +27,7 @@
           "engines": { "dsh": ">=0.2.0" }
         }
       ],
-      "defaultVersion": "1.8.4",
+      "defaultVersion": "1.8.6",
       "installation": { "status": "not-installed" }
     }
   ]
