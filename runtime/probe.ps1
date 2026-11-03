@@ -86,43 +86,73 @@ public static class WhalePulseProbe
         else RunDevice();
     }
 
+    private static bool HasActiveSession(MMDevice dev)
+    {
+        try
+        {
+            var sessions = dev.AudioSessionManager.Sessions;
+            for (int i = 0; i < sessions.Count; i++)
+            {
+                if ((int)sessions[i].State == 1) return true;
+            }
+        }
+        catch { }
+        return false;
+    }
+
+    /** 虚拟声卡（FxSound / Voicemeeter / VB-Audio 等）通常是中转端点，抓它会得到静音或回声。 */
+    private static bool IsVirtualDevice(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return false;
+        var n = name.ToLowerInvariant();
+        if (n.Contains("virtual")) return true;
+        if (n.Contains("虚拟")) return true;
+        if (n.Contains("fxsound")) return true;
+        if (n.Contains("voicemeeter")) return true;
+        if (n.Contains("vb-audio")) return true;
+        if (n.Contains("vb audio")) return true;
+        if (n.Contains("cable input")) return true;
+        if (n.Contains("cable output")) return true;
+        if (n.Contains("stereo mix")) return true;
+        return false;
+    }
+
     private static void RunDevice()
     {
         // 多声卡 / 虚拟声卡机器上，默认端点可能是静音的「假端点」。
-        // 这里优先挑「当前有活动音频会话」的端点，找不到再回退默认设备。
+        // 选择顺序：默认设备（若在出声）→ 有声且非虚拟的端点 → 任意有声端点 → 默认设备。
         WasapiLoopbackCapture cap = null;
         string pickedName = "(default)";
         try
         {
             using (var en = new MMDeviceEnumerator())
             {
-                var devs = en.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active);
-                MMDevice best = null;
-                foreach (var dev in devs)
+                MMDevice defaultDev = null;
+                try
                 {
-                    bool active = false;
-                    try
-                    {
-                        var sessions = dev.AudioSessionManager.Sessions;
-                        for (int i = 0; i < sessions.Count; i++)
-                        {
-                            if ((int)sessions[i].State == 1)
-                            {
-                                active = true;
-                                break;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        active = false;
-                    }
-                    if (active)
-                    {
-                        best = dev;
-                        break;
-                    }
+                    defaultDev = en.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
                 }
+                catch
+                {
+                    defaultDev = null;
+                }
+
+                MMDevice activityDev = null;
+                MMDevice realDev = null;
+                foreach (var dev in en.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active))
+                {
+                    bool active = HasActiveSession(dev);
+                    if (!active) continue;
+                    if (activityDev == null) activityDev = dev;
+                    if (realDev == null && !IsVirtualDevice(dev.FriendlyName)) realDev = dev;
+                }
+
+                MMDevice best = null;
+                if (defaultDev != null && HasActiveSession(defaultDev)) best = defaultDev;
+                else if (realDev != null) best = realDev;
+                else if (activityDev != null) best = activityDev;
+                else best = defaultDev;
+
                 if (best != null)
                 {
                     cap = new WasapiLoopbackCapture(best);
