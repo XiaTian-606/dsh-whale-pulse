@@ -88,10 +88,59 @@ public static class WhalePulseProbe
 
     private static void RunDevice()
     {
-        var cap = new WasapiLoopbackCapture();
+        // 多声卡 / 虚拟声卡机器上，默认端点可能是静音的「假端点」。
+        // 这里优先挑「当前有活动音频会话」的端点，找不到再回退默认设备。
+        WasapiLoopbackCapture cap = null;
+        string pickedName = "(default)";
+        try
+        {
+            using (var en = new MMDeviceEnumerator())
+            {
+                var devs = en.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active);
+                MMDevice best = null;
+                foreach (var dev in devs)
+                {
+                    bool active = false;
+                    try
+                    {
+                        var sessions = dev.AudioSessionManager.Sessions;
+                        for (int i = 0; i < sessions.Count; i++)
+                        {
+                            if ((int)sessions[i].State == 1)
+                            {
+                                active = true;
+                                break;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        active = false;
+                    }
+                    if (active)
+                    {
+                        best = dev;
+                        break;
+                    }
+                }
+                if (best != null)
+                {
+                    cap = new WasapiLoopbackCapture(best);
+                    pickedName = best.FriendlyName;
+                }
+            }
+        }
+        catch
+        {
+            cap = null;
+        }
+        if (cap == null)
+        {
+            cap = new WasapiLoopbackCapture();
+        }
         cap.DataAvailable += OnFloatData;
         cap.StartRecording();
-        Console.WriteLine("{\"ready\":true,\"mode\":\"device\"}");
+        Console.WriteLine("{\"ready\":true,\"mode\":\"device\",\"device\":\"" + pickedName.Replace("\"", "'") + "\"}");
         Loop();
     }
 
