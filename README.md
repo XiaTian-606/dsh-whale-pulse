@@ -11,7 +11,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-0078D4?style=flat-square)](#-兼容环境)
 [![DSH](https://img.shields.io/badge/DSH-0.2.x-4D6BFE?style=flat-square)](#-它是什么)
-[![Version](https://img.shields.io/badge/version-1.8.4-47e5bc?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.8.5-47e5bc?style=flat-square)](CHANGELOG.md)
 
 </div>
 
@@ -198,6 +198,18 @@ pnpm add github:XiaTian-606/dsh-whale-pulse
 | 刻度被截断 | 调大「最长长度」，容器宽度会跟着走 |
 | 完全不亮 | 系统「减少动画」（`prefers-reduced-motion`）开着时律动会被禁用 |
 | 换应用后没反应 | 等 10 秒自动刷新，或点「刷新」；应用 PID 变了要重新选 |
+| **多声卡 / 虚拟声卡机器上「默认输出设备」没反应或者只有底噪** | 见下面「多声卡说明」 |
+
+### 🔊 多声卡 / 虚拟声卡说明
+
+设备级 loopback 抓的是**输出端点（endpoint）**，不是「你的耳朵」听的那个混音结果。
+
+- 装了 FxSound、Voicemeeter、VB-Audio、声卡虚拟通道之类的机器上，默认端点可能是**静音端点**，于是整机模式只能读到底噪；
+- **这种机器请优先用「指定应用」模式**（process loopback 直接跟进程走，不经过端点），实测更稳；
+- 如果一定要整机模式，先在系统「声音设置」里确认默认输出设备确实是你在听的那个。
+
+> 感谢社区反馈：多声卡机器上整机模式容易读到静音底噪，单应用模式才是首选。
+
 
 ## 🔧 开发
 
